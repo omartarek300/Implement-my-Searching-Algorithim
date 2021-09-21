@@ -28,10 +28,10 @@ int main()
 }
 int8_t binarySearch(uint32_t* arr, uint8_t arr_size, uint32_t num)
 {
-    uint8_t min_index, start = 0, end =arr_size-1, mid = (start+end)/2 ;
-    for(uint8_t num_index =0; num_index < arr_size-1; num_index ++) // to check if array is sorted in ascending
+    uint8_t min_index, start = 0, end =arr_size-step, mid = (start+end)/2 ;
+    for(uint8_t num_index =0; num_index < arr_size-step; num_index ++) // to check if array is sorted in ascending
     {
-        if(arr[num_index+1] > arr[num_index])
+        if(arr[num_index+step] > arr[num_index])
         {
             sortingflag = sorted;
         }
@@ -43,10 +43,10 @@ int8_t binarySearch(uint32_t* arr, uint8_t arr_size, uint32_t num)
     }
     if(sortingflag == not_sorted)
     {
-        for(uint8_t num_index=0; num_index < arr_size-1; num_index++) // sort array using selection sort algorithm
+        for(uint8_t num_index=0; num_index < arr_size-step; num_index++) // sort array using selection sort algorithm
         {
             min_index = num_index;
-            for(uint8_t sub_num_index = num_index+1; sub_num_index < arr_size; sub_num_index++)
+            for(uint8_t sub_num_index = num_index + step; sub_num_index < arr_size; sub_num_index++)
             {
                 if(arr[sub_num_index] < arr[min_index])
                 {
@@ -61,24 +61,35 @@ int8_t binarySearch(uint32_t* arr, uint8_t arr_size, uint32_t num)
         sortingflag = sorted;
     }
     //find number using binary search
-    while(start <= end)
+    while(start <= end && mid > 0)
     {
         mid = start+(end - start)/2;
-        if(arr[mid] == num)
+        if(mid > 0)
         {
-            return mid; // number is found
+            if(arr[mid] == num)
+            {
+                return mid; // number is found
+            }
+            else if(arr[mid] < num) // if numbed is greater than mid-number then move the start to mid + 1 position
+            {
+                start = mid + step;
+            }
+            else if(arr[mid] > num) // if numbed is smaller than mid-number then move the end to mid - 1 position
+            {
+                end = mid -step;
+            }
+            else if(end == mid && start == mid && arr[mid] != num) //if number not found
+            {
+               return number_not_found;
+            }
         }
-        else if(arr[mid] < num) // if numbed is greater than mid-number then move the start to mid + 1 position
+        else
         {
-            start = mid + 1;
+            //if a negative index
+            return number_not_found;
         }
-        else if(arr[mid] > num) // if numbed is smaller than mid-number then move the end to mid - 1 position
-        {
-            end = mid -1;
-        }
+
     }
-    // if the number doesn't exist return not found
-    return number_not_found;
 }
 void swap(uint32_t* num1, uint32_t* num2) // function to swap two numbers
 {

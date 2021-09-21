@@ -4,6 +4,7 @@
 #define number_not_found -1
 #define sorted 0
 #define not_sorted 1
+#define step 1
 
 /************************************************ Global Variables ************************************************/
 uint8_t sortingflag = 0;
