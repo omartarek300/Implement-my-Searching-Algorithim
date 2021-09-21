@@ -61,7 +61,7 @@ int8_t binarySearch(uint32_t* arr, uint8_t arr_size, uint32_t num)
         sortingflag = sorted;
     }
     //find number using binary search
-    while(start <= end && mid > 0)
+    while(start <= end)
     {
         mid = start+(end - start)/2;
         if(mid > 0)
@@ -70,6 +70,10 @@ int8_t binarySearch(uint32_t* arr, uint8_t arr_size, uint32_t num)
             {
                 return mid; // number is found
             }
+            else if(end == mid && start == mid && arr[mid] != num) //if number not found
+            {
+               return number_not_found;
+            }
             else if(arr[mid] < num) // if numbed is greater than mid-number then move the start to mid + 1 position
             {
                 start = mid + step;
@@ -77,10 +81,6 @@ int8_t binarySearch(uint32_t* arr, uint8_t arr_size, uint32_t num)
             else if(arr[mid] > num) // if numbed is smaller than mid-number then move the end to mid - 1 position
             {
                 end = mid -step;
-            }
-            else if(end == mid && start == mid && arr[mid] != num) //if number not found
-            {
-               return number_not_found;
             }
         }
         else
