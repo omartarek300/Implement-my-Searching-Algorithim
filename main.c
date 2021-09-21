@@ -1,28 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "types.h"
-/********************** Function Delaration ********************/
-int8_t binarySearch(uint32_t* arr, uint8_t size, uint32_t num);
-void swap(uint32_t* num1, uint32_t* num2);
-void print_array(uint32_t* arr);
-/***************************************************************/
-/********************** Global Variables ***********************/
-uint8_t sortingflag = 0;
-/***************************************************************/
+#include "functions.h"
 int main()
 {
-    uint32_t arr[6], num;
+    uint32_t arr[size], num;
     printf("Enter array elements:\n");
-    for(int i=0; i<6; i++) // get array element from user
+    for(uint8_t num_index=0; num_index < size; num_index++) // get array element from user
     {
-        scanf("%d",&arr[i]);
+        scanf("%d",&arr[num_index]);
     }
     printf("Enter the desired number:\n"); // get the number from user
     scanf("%d",&num);
-    int8_t result = binarySearch(arr, 6, num);
+    uint32_t result = binarySearch(arr, size, num);
     printf("Sorted array: ");
-    print_array(arr);
-    if(result == -1)                   // check the result of the binary search function
+    print_array(arr, size);
+    if(result == number_not_found)                   // check the result of the binary search function
     {
         printf("\nNOT FOUND\n");
     }
@@ -33,39 +26,39 @@ int main()
 
     return 0;
 }
-int8_t binarySearch(uint32_t* arr, uint8_t size, uint32_t num)
+int8_t binarySearch(uint32_t* arr, uint8_t arr_size, uint32_t num)
 {
-    uint32_t min_idx, start =0, end =size-1, mid = (start+end)/2 ;
-    for(uint32_t c=0; c<size-1; c++) // to check if array is sorted in ascending
+    uint8_t min_index, start = 0, end =arr_size-1, mid = (start+end)/2 ;
+    for(uint8_t num_index =0; num_index < arr_size-1; num_index ++) // to check if array is sorted in ascending
     {
-        if(arr[c+1] > arr[c])
+        if(arr[num_index+1] > arr[num_index])
         {
-            sortingflag = 0;
+            sortingflag = sorted;
         }
         else
         {
-            sortingflag = 1;
+            sortingflag = not_sorted;
             break;
         }
     }
-    if(sortingflag == 1)
+    if(sortingflag == not_sorted)
     {
-        for(uint32_t i=0; i<size-1; i++) // sort array using selection sort algorithm
+        for(uint8_t num_index=0; num_index < arr_size-1; num_index++) // sort array using selection sort algorithm
         {
-            min_idx=i;
-            for(uint32_t j = i+1; j<size; j++)
+            min_index = num_index;
+            for(uint8_t sub_num_index = num_index+1; sub_num_index < arr_size; sub_num_index++)
             {
-                if(arr[j] < arr[min_idx])
+                if(arr[sub_num_index] < arr[min_index])
                 {
-                    min_idx = j;         // save the index of the smallest number in array
+                    min_index = sub_num_index;         // save the index of the smallest number in array
                 }
             }
-            if(i != min_idx)
+            if(num_index != min_index)
             {
-                swap(&arr[min_idx], &arr[i]);
+                swap(&arr[min_index], &arr[num_index]);
             }
         }
-        sortingflag =0;
+        sortingflag = sorted;
     }
     //find number using binary search
     while(start <= end)
@@ -73,7 +66,7 @@ int8_t binarySearch(uint32_t* arr, uint8_t size, uint32_t num)
         mid = start+(end - start)/2;
         if(arr[mid] == num)
         {
-            return mid;
+            return mid; // number is found
         }
         else if(arr[mid] < num) // if numbed is greater than mid-number then move the start to mid + 1 position
         {
@@ -84,7 +77,8 @@ int8_t binarySearch(uint32_t* arr, uint8_t size, uint32_t num)
             end = mid -1;
         }
     }
-    return -1;
+    // if the number doesn't exist return not found
+    return number_not_found;
 }
 void swap(uint32_t* num1, uint32_t* num2) // function to swap two numbers
 {
@@ -92,10 +86,10 @@ void swap(uint32_t* num1, uint32_t* num2) // function to swap two numbers
     *num2 = *num1 ^ *num2;
     *num1 = *num1 ^ *num2;
 }
-void print_array(uint32_t* arr) // to print elements of array
+void print_array(uint32_t* arr, uint8_t arr_size) // to print elements of array
 {
-    for(uint32_t i=0; i<6; i++)
+    for(uint32_t num_index=0; num_index < arr_size; num_index++)
     {
-        printf("%d ",arr[i]);
+        printf("%d ",arr[num_index]);
     }
 }

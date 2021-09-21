@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1629637310 source:d:\sprints\my sorting algorithm\main.c
+	<stdio.h>
+	<stdlib.h>
+	"types.h"
+
+1629334020 d:\sprints\my sorting algorithm\types.h
+
